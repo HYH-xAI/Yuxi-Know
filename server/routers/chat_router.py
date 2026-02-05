@@ -67,7 +67,9 @@ chat = APIRouter(prefix="/chat", tags=["chat"])
 # > === 智能体管理分组 ===
 # =============================================================================
 
-
+# python装饰器，用于修改或增强函数（或类）行为的高级功能，本质上是一个接受函数作为参数并返回一个新函数的函数
+# 在 FastAPI 中，装饰器（Decorator）是其核心机制之一，用于定义路由、依赖注入、中间件、安全认证等。FastAPI 基于 Starlette 和 Pydantic，大量使用装饰器来实现声明式 API 开发。
+# 比如，在浏览器打开 http://localhost:8000/hello，代码响应：浏览器发送 GET /hello → FastAPI 找到 @app.get("/hello") → 调用 say_hello() → 返回 JSON
 @chat.get("/default_agent")
 async def get_default_agent(current_user: User = Depends(get_required_user)):
     """获取默认智能体ID（需要登录）"""
@@ -84,7 +86,7 @@ async def get_default_agent(current_user: User = Depends(get_required_user)):
         logger.error(f"获取默认智能体出错: {e}")
         raise HTTPException(status_code=500, detail=f"获取默认智能体出错: {str(e)}")
 
-
+# 比如：用 Postman 或前端发 POST 到 /items，带参数 name=苹果&price=5.5，代码想响应：FastAPI 找到 @app.post("/items") → 调用 create_item("苹果", 5.5) → 返回创建结果
 @chat.post("/set_default_agent")
 async def set_default_agent(request_data: dict = Body(...), current_user=Depends(get_admin_user)):
     """设置默认智能体ID (仅管理员)"""
